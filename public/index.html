@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="从产品卖点到打动人的抖音文案。你的本地 AI 文案工作台。">
+  <title>有话 · 抖音文案工作台</title><link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/styles.css"><script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar"><div class="brand"><span class="brand-mark">有</span><span class="brand-name">有话<span class="brand-divider">/</span><span class="brand-sub">文案工作台</span></span></div><span class="local-badge"><i></i> 本地运行 <span>·</span> 你的创作空间</span></header>
+  <main>
+    <section class="intro"><div><p class="eyebrow">GOOD PRODUCTS. GOOD STORIES.</p><h1>让好产品，<span>有话可说。</span></h1><p class="intro-copy">把卖点交给 AI，把打动人心的那一句留下。</p></div><div class="intro-note"><span class="spark">✳</span><p>一点灵感<br>不止一种表达</p></div></section>
+    <div class="workspace">
+      <aside class="brief-column">
+        <section class="panel connection"><div class="section-top"><h2><span class="step small-step">↗</span>连接 AI Hub Mix</h2><span id="connection-state" class="micro-badge">待填写</span></div>
+          <label for="api-key">API Key</label><div class="key-input"><input id="api-key" type="password" autocomplete="off" spellcheck="false" placeholder="粘贴你的 API Key" maxlength="500"><button id="toggle-key" type="button" aria-label="显示 API Key">显示</button></div>
+          <div class="key-caption"><span>自动保存在此浏览器，仅向 AI Hub Mix 发送</span><button id="clear-key" type="button">清除</button></div>
+          <label for="model">模型名称</label><input id="model" value="gemini-4-argon" maxlength="150" spellcheck="false"><p class="field-note">可替换为你在 AI Hub Mix 使用的模型 ID</p>
+          <div class="reasoning-field"><label for="reasoning-effort">思考程度</label><select id="reasoning-effort" aria-describedby="reasoning-note"><option value="low">低 · 快速初稿</option><option value="medium">中 · 均衡思考</option><option value="high">高 · 深入思考</option></select><p id="reasoning-note" class="field-note">高档可能耗时更长、费用更高，不保证文案更好。选择会自动保存。</p></div>
+        </section>
+        <form id="brief-form" class="panel brief-panel">
+          <div class="section-top"><h2><span class="step">01</span>告诉我，写什么</h2><span class="quiet">创作需求</span></div>
+          <button id="fill-example" class="example-button" type="button"><span class="example-icon">✦</span><span>填入单向历范例<small>2027 小鸭单向历 · 一键试写</small></span><span class="arrow">↗</span></button>
+          <label for="product">产品名称 <span class="required">*</span></label><input id="product" required maxlength="200" placeholder="例如：2027 年单向历">
+          <label for="selling-points">核心卖点 <span class="required">*</span></label><textarea id="selling-points" required maxlength="4000" rows="3" placeholder="它有什么特别之处？写下最想让人记住的产品特点。"></textarea>
+          <label for="audience">目标受众 <span class="required">*</span></label><input id="audience" required maxlength="1000" placeholder="例如：小镇青年、Z 世代">
+          <div class="field-row"><div><label for="count">生成篇数</label><div class="unit-field"><input id="count" type="number" min="1" max="10" step="1" value="5" required><span>篇</span></div></div><div><label for="target-length">每篇目标字数</label><div class="unit-field"><input id="target-length" type="number" min="50" max="1000" step="1" value="135" required><span>字左右</span></div></div></div>
+          <fieldset><legend>想要什么感觉？</legend><div class="feature-options"><label><input type="checkbox" name="feature" value="有网感" checked><span>✧ 有网感</span></label><label><input type="checkbox" name="feature" value="有情绪" checked><span>♡ 有情绪</span></label><label><input type="checkbox" name="feature" value="吸引目标受众" checked><span>◎ 吸引目标受众</span></label><label><input type="checkbox" name="feature" value="卖点突出" checked><span>↗ 卖点突出</span></label></div><p class="field-note">每篇融合所选特点中的 1–3 项，开头各有侧重。</p></fieldset>
+          <label for="extra">补充要求 <span class="optional">选填</span></label><textarea id="extra" rows="2" maxlength="4000" placeholder="例如：像朋友聊天，不要说教，结尾留一点余味。"></textarea>
+          <div class="generate-actions"><button id="generate" class="primary-button" type="submit"><span>✦</span> 生成文案 <span class="arrow">→</span></button><button id="cancel" class="cancel-button" type="button" hidden>取消生成</button></div>
+          <p class="submit-note">每次生成调用一次 API，费用由 AI Hub Mix 账户扣除。</p>
+        </form>
+      </aside>
+      <section class="results-column" aria-labelledby="results-title">
+        <div class="results-top"><div><p class="eyebrow">YOUR NEXT GOOD LINE</p><h2 id="results-title">让灵感落成文字 <span id="result-count">0 篇</span></h2></div><div class="result-actions"><button id="regenerate" class="text-button" type="button" disabled>↻ 再写一组</button><button id="copy-all" class="outlined-button" type="button" disabled>复制全部</button></div></div>
+        <div id="message" role="status" aria-live="polite" hidden></div>
+        <div id="loading" class="loading-panel" role="status" hidden><span class="spinner"></span><div><strong>正在寻找合适的表达…</strong><p>AI 正在整理卖点，让每个开头都有新意。</p></div></div>
+        <div id="empty-state" class="empty-state"><div class="paper-stack"><div class="back-paper"></div><div class="front-paper"><span class="paper-quote">“</span><div class="paper-line long"></div><div class="paper-line"></div><div class="paper-line short"></div><span class="paper-star">✳</span></div><span class="floating-plus">+</span></div><p class="empty-kicker">每个好产品，都值得被好好讲述</p><h3>你的下一句好文案，从这里开始</h3><p>填入产品和卖点，或试试左侧的单向历范例。<br>一次生成多种开头，找到适合你的表达。</p><div class="empty-tags"><span>不同开头</span><i>·</i><span>贴近受众</span><i>·</i><span>自然口语</span></div></div>
+        <div id="results" class="results-list"></div>
+        <div class="writing-note"><span>✧</span><p>好的文案，从真实的产品开始。发布前，记得核对事实和表达。</p></div>
+      </section>
+    </div>
+    <footer><span>有话 · 把产品讲得更动人</span><span>AI HUB MIX <span class="footer-dot">/</span> LOCAL WORKSPACE</span></footer>
+  </main><div id="toast" role="status" aria-live="polite" hidden></div>
+</body></html>
